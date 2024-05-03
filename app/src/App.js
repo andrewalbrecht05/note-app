@@ -1,25 +1,25 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [labelText, setLabelText] = useState('Initial text');
+
+    const handleClick = async () => {
+        try {
+            const response = await fetch('http://127.0.0.1:8080/get_number');
+            const data = await response.json();
+            setLabelText(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
+    return (
+        <div className="App">
+            <button onClick={handleClick}>Click me!</button>
+            <p>{labelText}</p>
+        </div>
+    );
 }
 
 export default App;

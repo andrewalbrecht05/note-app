@@ -1,0 +1,21 @@
+.note {
+    width: 600px;
+    border: black solid 2px;
+    border-radius: 5px;
+    gap: 10px;
+}
+.note .container {
+    display: flex;
+    flex-direction: column;
+
+    padding: 10px;
+}
+
+textarea {
+    display: block;
+    overflow: hidden;
+    resize: none;
+    padding: 10px;
+    font-size: 14px;
+    width: 90%;
+}

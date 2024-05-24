@@ -2,7 +2,6 @@ use chrono::prelude::*;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-#[allow(non_snake_case)]
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct User {
     pub id: Uuid,
@@ -29,6 +28,7 @@ pub struct Note {
     #[serde(rename = "updatedAt")]
     pub updated_at: Option<DateTime<Utc>>,
 }
+
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TokenClaims {
     pub sub: String,
@@ -45,6 +45,18 @@ pub struct RegisterUserSchema {
 
 #[derive(Debug, Deserialize)]
 pub struct LoginUserSchema {
-    pub email: String,
+    pub name: String,
     pub password: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct CreateNoteSchema {
+    pub title: String,
+    pub text: String,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct UpdateNoteSchema {
+    pub title: Option<String>,
+    pub text: Option<String>,
 }

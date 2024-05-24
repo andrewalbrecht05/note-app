@@ -2,4 +2,5 @@
 .env
 .idea
 
+roadmap.md
 Cargo.lock

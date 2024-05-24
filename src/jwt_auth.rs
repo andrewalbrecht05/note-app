@@ -7,15 +7,14 @@ use axum::{
     response::IntoResponse,
     Json, body::Body,
 };
-
 use axum_extra::extract::cookie::CookieJar;
 use jsonwebtoken::{decode, DecodingKey, Validation};
 use serde::Serialize;
 use uuid::Uuid;
-
 use crate::{
     model::{TokenClaims, User},
     AppState,
+    response::filter_user_record,
 };
 
 #[derive(Debug, Serialize)]
@@ -80,7 +79,7 @@ pub async fn auth(
         .map_err(|err| {
             let json_error = ErrorResponse {
                 status: "fail",
-                message: format!("Error fetching user from database: {}", err),
+                message: format!("Error fetching user from database: {err}"),
             };
             (StatusCode::INTERNAL_SERVER_ERROR, Json(json_error))
         })?;
@@ -93,6 +92,7 @@ pub async fn auth(
         (StatusCode::UNAUTHORIZED, Json(json_error))
     })?;
 
-    req.extensions_mut().insert(user);
+    let filtered_user = filter_user_record(&user);
+    req.extensions_mut().insert(filtered_user);
     Ok(next.run(req).await)
 }

@@ -4,24 +4,24 @@ mod config;
 mod response;
 mod jwt_auth;
 mod handler;
+mod utils;
 
-use std::env;
 use std::sync::Arc;
-use axum::response::IntoResponse;
-use axum::{Json, Router};
-use axum::http::{HeaderValue, Method};
-use axum::http::header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE};
-use axum::routing::{get, post};
 use dotenv::dotenv;
 use log::info;
-use rand::random;
-use serde_json::json;
-use sqlx::{Pool, Postgres};
-use sqlx::postgres::PgPoolOptions;
-use tower_http::cors::{Any, CorsLayer};
-use crate::config::Config;
-use crate::handler::{login_user_handler, register_user_handler};
-use crate::route::create_router;
+use tower_http::cors::{CorsLayer};
+use axum::{
+    http::{HeaderValue, Method,header::{ACCEPT, AUTHORIZATION, CONTENT_TYPE}}
+};
+use sqlx::{
+    Pool,
+    Postgres,
+    postgres::PgPoolOptions,
+};
+use crate::{
+    config::Config,
+    route::create_router
+};
 
 pub struct AppState {
     db: Pool<Postgres>,

@@ -1,0 +1,54 @@
+/* MainContent.css */
+.main-content {
+    padding: 20px;
+    background-color: #1C1C1C;
+    color: #FFFFFF;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    max-width: 300px;
+    min-width: 200px;
+    height: 100vh;/*change*/
+}
+
+.main-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #fff;
+}
+
+.notes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.note-card {
+    background-color: rgba(255, 255, 255, 0.03);
+    padding: 15px;
+    transition: background-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.note-card:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+}
+
+.note-list-title {
+    font-size: 18px;
+
+}
+
+.note-list-date_created {
+    font-size: 10px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.note-list-text {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+}

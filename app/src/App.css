@@ -4,9 +4,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    /*gap: 30px;*/
+}
+
+.App {
+    display: flex;
 }
 
 .main h1 {
     text-align: left;
+}
+
+*{
+    font-family: "Source Sans Pro", sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    scrollbar-width: none;
 }

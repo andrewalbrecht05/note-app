@@ -77,6 +77,7 @@ const Sidebar = () => {
                 throw new Error(`Error fetching note: ${data.status}`);
             }
             alert("Deleted note successfully!");
+            setNote("");
             fetchNotes();
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);

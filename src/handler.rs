@@ -124,7 +124,7 @@ pub async fn login_user_handler(
         .ok_or_else(|| {
             let error_response = json!({
                 "status": "fail",
-                "message": "Invalid email or password",
+                "message": "Invalid username or password",
             });
             (StatusCode::BAD_REQUEST, Json(error_response))
         })?;
@@ -207,7 +207,7 @@ pub async fn create_note_handler(
     Extension(user): Extension<FilteredUser>,
     Json(body): Json<CreateNoteSchema>,
 ) -> Result<impl IntoResponse, (StatusCode, Json<Value>)> {
-    if body.title.trim().is_empty() {
+    /*if body.title.trim().is_empty() {
         let error_response = json!({
             "status": "fail",
             "message": "Title can't be blank"
@@ -220,7 +220,7 @@ pub async fn create_note_handler(
             "message": "Text can't be blank"
         });
         return Err((StatusCode::BAD_REQUEST, Json(error_response)));
-    }
+    }*/
     let note = query_as!(
         Note,
         "INSERT INTO notes (author_id,author_name,title,text) VALUES ($1, $2, $3, $4) RETURNING *",
@@ -254,7 +254,7 @@ pub async fn get_notes_handler(
 ) -> Result<impl IntoResponse, (StatusCode, Json<Value>)> {
     let notes = query_as!(
         Note,
-        "SELECT * FROM notes WHERE author_id = $1",
+        "SELECT * FROM notes WHERE author_id = $1 ORDER BY updated_at DESC",
         Uuid::parse_str(&user.id).unwrap(),
     )
         .fetch_all(&data.db)
@@ -320,12 +320,14 @@ pub async fn update_note_handler(
         return Err((StatusCode::BAD_REQUEST, Json(error_response)));
     }
 
-    let mut query_str: QueryBuilder<Postgres> = QueryBuilder::new("UPDATE notes SET ");
+    let mut query_str: QueryBuilder<Postgres> = QueryBuilder::new("UPDATE notes SET updated_at = NOW(), ");
 
     if body.title.is_some() {
         query_str.push("title = ");
         query_str.push_bind(body.title.unwrap());
-        query_str.push(", ");
+        if body.text.is_some() {
+            query_str.push(", ");
+        }
     }
 
     if body.text.is_some() {
@@ -336,7 +338,7 @@ pub async fn update_note_handler(
     query_str.push(" WHERE id = ");
     query_str.push_bind(note_id);
     query_str.push(" AND author_id = ");
-    query_str.push_bind(user.id);
+    query_str.push_bind(Uuid::parse_str(&user.id).unwrap());
     query_str.push(" RETURNING *;");
 
     let note: Note = query_str

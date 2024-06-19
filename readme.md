@@ -13,6 +13,7 @@ well as the security of user data.
 - [Installation](#installation)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
+- [Screenshots](#screenshots)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -115,6 +116,20 @@ and start managing your notes.
 - `POST /api/notes`: Create a new note.
 - `PATCH /api/notes/:id`: Update an existing note.
 - `DELETE /api/notes/:id`: Delete a note.
+
+## Screenshots
+
+1. Login page
+
+<img src="screenshots/login.png" width="900">
+
+2. Register page
+
+<img src="screenshots/register.png" width="900">
+
+3. Main content
+
+<img src="screenshots/main.png" width="900">
 
 ## Contributing
 
